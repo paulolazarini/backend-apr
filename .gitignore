@@ -1,0 +1,84 @@
+# Arquivos de Bytecode e Cache do Python
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Arquivos de ambientes virtuais
+# ------------------------------------------------------------------------------
+.env
+.venv
+env/
+venv/
+ENV/
+VENV/
+env.bak
+venv.bak
+
+# Arquivos de configuração de IDEs e editores
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+*.DS_Store
+
+# Arquivos de banco de dados
+# ------------------------------------------------------------------------------
+*.sqlite3
+*.db
+db.sqlite3
+db.sqlite3-journal # Arquivo de journal do SQLite
+
+# Arquivos de Mídia e Estáticos (gerados pelo `collectstatic`)
+# ------------------------------------------------------------------------------
+# ATENÇÃO: Descomente a linha abaixo se seus arquivos de mídia (uploads de usuários)
+# não devem ser versionados. É a prática mais comum e recomendada.
+# /media/
+
+# A pasta de estáticos coletados não deve ser versionada.
+/staticfiles/
+/static_root/
+
+# Arquivos de dependências e pacotes Python
+# ------------------------------------------------------------------------------
+pip-wheel-metadata/
+local_settings.py
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Arquivos de Logs
+# ------------------------------------------------------------------------------
+logs/
+*.log
+
+# Arquivos de testes e cobertura de código
+# ------------------------------------------------------------------------------
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Arquivos de segredos e variáveis de ambiente
+# ------------------------------------------------------------------------------
+# Nunca versione arquivos que contenham senhas, chaves de API, etc.
+*.env
+.env.*
+secrets.yml
+
+# Arquivos do SASS/SCSS (se aplicável)
+# ------------------------------------------------------------------------------
+.sass-cache/
+.node-sass-cache/
+node_modules/
+
+# Arquivos de documentação (gerados)
+# ------------------------------------------------------------------------------
+site/
