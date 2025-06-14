@@ -1,7 +1,42 @@
 from rest_framework import serializers
-from .models import User
+from django.contrib.auth.models import User
+from .models import ArvorePreRequisitos, Objetivo, Obstaculo, PreRequisito, Dependencias
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+class DependenciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dependencias
+        fields = ['id', 'requisito_origem', 'requisito_alvo']
+
+class PreRequisitoSerializer(serializers.ModelSerializer):
+    priority_display = serializers.CharField(source='get_priority_display', read_only=True)
+    
+    class Meta:
+        model = PreRequisito
+        fields = ['id', 'nome_requisito', 'description', 'priority', 'priority_display']
+
+class ObstaculoSerializer(serializers.ModelSerializer):
+    pre_requisitos = PreRequisitoSerializer(many=True, read_only=True, source='prerequisito_set')
+
+    class Meta:
+        model = Obstaculo
+        fields = ['id', 'nome_obstaculo', 'description', 'pre_requisitos']
+
+class ObjetivoSerializer(serializers.ModelSerializer):
+    obstaculos = ObstaculoSerializer(many=True, read_only=True, source='obstaculo_set')
+
+    class Meta:
+        model = Objetivo
+        fields = ['id', 'nome_objetivo', 'description', 'obstaculos']
+
+class ArvorePreRequisitosSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    objetivos = ObjetivoSerializer(many=True, read_only=True, source='objetivo_set')
+
+    class Meta:
+        model = ArvorePreRequisitos
+        fields = ['id', 'nome_apr', 'description', 'user', 'objetivos']
