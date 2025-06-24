@@ -19,8 +19,5 @@
             "src": "/(.*)",
             "dest": "api_root/wsgi.py"
         }
-    ],
-    "env": {
-        "PYTHONPATH": "."
-    }
+    ]
 }
