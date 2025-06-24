@@ -19,6 +19,10 @@ from .serializer import (
     DependenciaSerializer
 )
 
+@api_view(['GET'])
+def test_endpoint(request):
+    return Response({'message': 'API is working'}, status=status.HTTP_200_OK)
+
 # User views
 @api_view(['GET'])
 def get_users(request):

@@ -19,5 +19,13 @@
             "src": "/(.*)",
             "dest": "api_root/wsgi.py"
         }
-    ]
+    ],
+    "env": {
+        "PYTHONPATH": "."
+    },
+    "functions": {
+        "api_root/wsgi.py": {
+            "maxDuration": 30
+        }
+    }
 }

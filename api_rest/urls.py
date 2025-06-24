@@ -5,10 +5,12 @@ from .views import (
     objetivo_list, objetivo_detail,
     obstaculo_list, obstaculo_detail,
     prerequisito_list, prerequisito_detail,
-    dependencia_list, dependencia_detail
+    dependencia_list, dependencia_detail,
+    test_endpoint
 )
 
 urlpatterns = [
+    path('test/', test_endpoint, name='test_endpoint'),
     # User endpoints
     path('users/', get_users, name='get_users'),
     path('users/create', create_users, name='create_users'),
