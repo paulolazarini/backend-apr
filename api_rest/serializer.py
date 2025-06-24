@@ -3,9 +3,22 @@ from django.contrib.auth.models import User
 from .models import ArvorePreRequisitos, Objetivo, Obstaculo, PreRequisito, Dependencias
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=False)
+    
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
+    
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', '')
+        )
+        return user
 
 class DependenciaSerializer(serializers.ModelSerializer):
     class Meta:
