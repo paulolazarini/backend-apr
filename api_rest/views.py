@@ -21,7 +21,19 @@ from .serializer import (
 
 @api_view(['GET'])
 def test_endpoint(request):
-    return Response({'message': 'API is working'}, status=status.HTTP_200_OK)
+    try:
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        return Response({
+            'message': 'API is working',
+            'database': 'connected'
+        }, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({
+            'message': 'API is working but database error',
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # User views
 @api_view(['GET'])
