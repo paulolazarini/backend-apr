@@ -26,7 +26,6 @@ def test_endpoint(request):
 # User views
 @api_view(['GET'])
 def get_users(request):
-    print("Nao funciona")
     queryset = User.objects.all()
     serializer = UserSerializer(queryset, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
