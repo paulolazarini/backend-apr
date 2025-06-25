@@ -6,13 +6,14 @@ from .views import (
     obstaculo_list, obstaculo_detail,
     prerequisito_list, prerequisito_detail,
     dependencia_list, dependencia_detail,
-    test_endpoint, test_create_apr, test_create_obstaculo
+    test_endpoint, test_create_apr, test_create_obstaculo, test_create_prerequisito
 )
 
 urlpatterns = [
     path('test/', test_endpoint, name='test_endpoint'),
     path('test-create-apr/', test_create_apr, name='test_create_apr'),
     path('test-create-obstaculo/', test_create_obstaculo, name='test_create_obstaculo'),
+    path('test-create-prerequisito/', test_create_prerequisito, name='test_create_prerequisito'),
 
     # User endpoints
     path('users/', get_users, name='get_users'),

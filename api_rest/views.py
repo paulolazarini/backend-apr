@@ -82,6 +82,30 @@ def test_create_obstaculo(request):
             'success': False,
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def test_create_prerequisito(request):
+    try:
+        from .models import PreRequisito, Obstaculo
+        
+        obstaculo = Obstaculo.objects.get(id=request.data.get('obstaculo_id', 1))
+        prerequisito = PreRequisito.objects.create(
+            nome_requisito=request.data.get('nome_requisito', 'Teste'),
+            description=request.data.get('description', ''),
+            priority=request.data.get('priority', 1),
+            obstaculo=obstaculo
+        )
+        
+        return Response({
+            'success': True,
+            'id': prerequisito.id,
+            'nome_requisito': prerequisito.nome_requisito
+        })
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # User views
 @api_view(['GET'])
