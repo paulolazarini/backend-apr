@@ -20,7 +20,7 @@ urlpatterns = [
     path('test-create-dependencia/', test_create_dependencia, name='test_create_dependencia'),
     path('test-view-tree/<int:apr_id>/', test_view_tree, name='test_view_tree'),
 
-    # Dependências endpoints (antes das rotas com parâmetros)
+    # Dependências endpoints
     path('dependencias/', dependencia_list, name='dependencia_list'),
     path('dependencias/<int:id>/', dependencia_detail, name='dependencia_detail'),
     

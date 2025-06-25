@@ -1,85 +1,91 @@
-# Documentação da API: Árvore de Pré-Requisitos (APR)
+# 🚀 Documentação da API: Árvore de Pré-Requisitos (APR)
 
-**Versão:** 1.0
-**Data:** 13 de junho de 2025
-
-### Introdução
-
-Esta documentação detalha a API RESTful para o sistema de Árvore de Pré-Requisitos (APR). O objetivo da API é permitir a criação, visualização, atualização e exclusão de árvores de planejamento hierárquicas, compostas por Objetivos, Obstáculos e Pré-Requisitos.
-
-### Informações Gerais
-
-#### URL Base
-Todas as URLs documentadas são relativas à seguinte base:
-`https://backend-apr.vercel.app/api/`
-
-#### Autenticação
-A API utiliza autenticação por Token. Todas as requisições (exceto o login para obter o token) devem incluir o cabeçalho `Authorization`.
-
-**Exemplo de Cabeçalho:**
-
-#### Formato dos Dados
-Todas as requisições e respostas utilizam o formato `application/json`.
-
-#### Códigos de Status HTTP
-A API utiliza os seguintes códigos de status para indicar o resultado das operações:
--   `200 OK`: Requisição bem-sucedida.
--   `201 Created`: Recurso criado com sucesso.
--   `204 No Content`: Recurso deletado com sucesso (sem corpo na resposta).
--   `400 Bad Request`: A requisição contém dados inválidos ou mal formatados.
--   `401 Unauthorized`: Autenticação falhou ou não foi fornecida.
--   `403 Forbidden`: O usuário autenticado não tem permissão para realizar a ação.
--   `404 Not Found`: O recurso solicitado não foi encontrado.
+**Versão:** 1.0  
+**Data:** 25 de junho de 2025
 
 ---
 
-### Estrutura dos Dados
+### **🎯 Introdução**
+
+> Esta documentação detalha a API RESTful para o sistema de **Árvore de Pré-Requisitos (APR)**. O objetivo da API é permitir a criação, visualização, atualização e exclusão de árvores de planejamento hierárquicas, associadas a usuários específicos. A estrutura é composta por Árvores (APRs), Objetivos, Obstáculos e Pré-Requisitos, com a capacidade de definir dependências entre eles.
+
+---
+
+### **⚙️ Informações Gerais**
+
+#### **🔗 URL Base**
+Todas as URLs documentadas são relativas à seguinte base:
+
+https://backend-apr.vercel.app/api/
+
+
+#### **🔑 Autenticação**
+> A API não requer autenticação por token. As operações são, em sua maioria, públicas, mas a criação de recursos está vinculada a um `user_id` que deve ser fornecido no corpo da requisição para estabelecer a propriedade.
+
+#### **📦 Formato dos Dados**
+Todas as requisições e respostas utilizam o formato `application/json`.
+
+#### **🚦 Códigos de Status HTTP**
+A API utiliza os seguintes códigos de status para indicar o resultado das operações:
+
+| Código | Descrição |
+| :--- | :--- |
+| `200 OK` | Requisição bem-sucedida. |
+| `201 Created` | Recurso criado com sucesso. |
+| `204 No Content`| Recurso deletado com sucesso (sem corpo na resposta). |
+| `400 Bad Request`| A requisição contém dados inválidos ou mal formatados. |
+| `404 Not Found` | O recurso solicitado não foi encontrado. |
+| `500 Internal Server Error` | Ocorreu um erro inesperado no servidor. |
+
+---
+
+### **🌳 Estrutura dos Dados**
 
 A API é organizada em torno da seguinte hierarquia de recursos:
 
--   **Árvore de Pré-Requisitos (APR)**
-    -   **Objetivo(s)**
-        -   **Obstáculo(s)**
-            -   **Pré-Requisito(s)**
--   **Dependências** (relação entre dois Pré-Requisitos)
+1.  **Usuário (User)**
+2.  **Árvore de Pré-Requisitos (APR)**
+    * **Objetivo(s)**
+        * **Obstáculo(s)**
+            * **Pré-Requisito(s)**
+                * **Dependências** (relação entre dois Pré-Requisitos)
 
 ---
 
-## Endpoints da API
+### **🔌 Endpoints da API**
 
-### 1. Árvore de Pré-Requisitos (APR)
+#### **1. Árvore de Pré-Requisitos (APR)**
+> Recurso principal que representa uma árvore de planejamento completa.
 
-Recurso principal que representa uma árvore de planejamento completa.
+##### **1.1. Listar todas as APRs**
+* **Endpoint:** `GET /apr/`
+* **Descrição:** Retorna uma lista de todas as árvores de pré-requisitos disponíveis. Para otimização, os nós aninhados não são incluídos nesta listagem.
+* **Resposta de Sucesso (200 OK):** Uma lista de objetos APR.
 
-#### 1.1. Listar todas as APRs do usuário
--   **Endpoint:** `GET /arvores/`
--   **Descrição:** Retorna uma lista de todas as árvores de pré-requisitos que pertencem ao usuário autenticado.
--   **Resposta de Sucesso (200 OK):** Uma lista de objetos APR. A estrutura de cada objeto é idêntica à do endpoint de "Detalhes da APR" (1.2).
-
-#### 1.2. Detalhes de uma APR (Recuperar a Árvore Completa)
--   **Endpoint:** `GET /arvores/{id}/`
--   **Descrição:** Retorna um único objeto APR com toda a sua estrutura aninhada.
--   **Resposta de Sucesso (200 OK):**
+##### **1.2. Detalhes de uma APR (Recuperar a Árvore Completa)**
+* **Endpoint:** `GET /test-view-tree/{id}/`
+* **Descrição:** Retorna um único objeto APR com toda a sua estrutura aninhada: objetivos, obstáculos e pré-requisitos. Este é o endpoint recomendado para renderizar a visualização completa de uma árvore.
+* **Resposta de Sucesso (200 OK):**
     ```json
     {
-        "id": 1,
-        "nome_apr": "Lançamento do Projeto Phoenix",
-        "description": "Todos os passos para o lançamento.",
-        "user": { "id": 1, "username": "paulo_lazarini" },
+        "id": 13,
+        "nome_apr": "Aprendizado de Python",
+        "description": "Árvore para aprender Python do zero",
+        "user": { "id": 2, "username": "joao_silva" },
         "objetivos": [
             {
-                "id": 1,
-                "nome_objetivo": "Finalizar o Desenvolvimento",
+                "id": 2,
+                "nome_objetivo": "Python Básico",
                 "obstaculos": [
                     {
                         "id": 1,
-                        "nome_obstaculo": "Corrigir Bugs Críticos",
-                        "pre_requisitos": [
+                        "nome_obstaculo": "Sintaxe Python",
+                        "prerequisitos": [
                             {
                                 "id": 1,
-                                "nome_requisito": "Testar o fluxo de login",
-                                "priority": 3,
-                                "priority_display": "Alta"
+                                "nome_requisito": "Variáveis",
+                                "priority": 1,
+                                "priority_display": "Baixa"
                             }
                         ]
                     }
@@ -89,38 +95,33 @@ Recurso principal que representa uma árvore de planejamento completa.
     }
     ```
 
-#### 1.3. Criar uma nova APR
--   **Endpoint:** `POST /arvores/`
--   **Corpo da Requisição:**
+##### **1.3. Criar uma nova APR**
+* **Endpoint:** `POST /apr/`
+* **Corpo da Requisição:**
     ```json
     {
         "nome_apr": "String (Obrigatório)",
-        "description": "String (Opcional)"
+        "description": "String (Opcional)",
+        "user_id": "Integer (ID do usuário, Obrigatório)"
     }
     ```
--   **Resposta de Sucesso (201 Created):** O objeto da APR recém-criada.
+* **Resposta de Sucesso (201 Created):** O objeto da APR recém-criada.
 
-#### 1.4. Atualizar uma APR
--   **Endpoint:** `PUT /arvores/{id}/` ou `PATCH /arvores/{id}/`
--   **Corpo da Requisição:**
-    ```json
-    {
-        "nome_apr": "String (Obrigatório)",
-        "description": "String (Opcional)"
-    }
-    ```
+##### **1.4. Atualizar uma APR**
+* **Endpoint:** `PUT /apr/{id}/`
+* **Corpo da Requisição:** Os mesmos campos da criação, exceto `user_id`.
 
-#### 1.5. Deletar uma APR
--   **Endpoint:** `DELETE /arvores/{id}/`
--   **Resposta de Sucesso (204 No Content):** Sem corpo na resposta.
+##### **1.5. Deletar uma APR**
+* **Endpoint:** `DELETE /apr/{id}/`
+* **Resposta de Sucesso (204 No Content):** Sem corpo na resposta.
 
 ---
 
-### 2. Objetivos
+#### **2. Objetivos**
 
-#### 2.1. Criar um Objetivo
--   **Endpoint:** `POST /arvores/{arvore_id}/objetivos/`
--   **Corpo da Requisição:**
+##### **2.1. Criar um Objetivo**
+* **Endpoint:** `POST /apr/{apr_id}/objetivos/`
+* **Corpo da Requisição:**
     ```json
     {
         "nome_objetivo": "String (Obrigatório)",
@@ -128,20 +129,19 @@ Recurso principal que representa uma árvore de planejamento completa.
     }
     ```
 
-#### 2.2. Atualizar um Objetivo
--   **Endpoint:** `PUT /objetivos/{id}/`
--   **Corpo da Requisição:** `{ "nome_objetivo": "...", "description": "..." }`
+##### **2.2. Atualizar um Objetivo**
+* **Endpoint:** `PUT /apr/{apr_id}/objetivos/{objetivo_id}/`
 
-#### 2.3. Deletar um Objetivo
--   **Endpoint:** `DELETE /objetivos/{id}/`
+##### **2.3. Deletar um Objetivo**
+* **Endpoint:** `DELETE /apr/{apr_id}/objetivos/{objetivo_id}/`
 
 ---
 
-### 3. Obstáculos
+#### **3. Obstáculos**
 
-#### 3.1. Criar um Obstáculo
--   **Endpoint:** `POST /objetivos/{objetivo_id}/obstaculos/`
--   **Corpo da Requisição:**
+##### **3.1. Criar um Obstáculo**
+* **Endpoint:** `POST /objetivos/{objetivo_id}/obstaculos/`
+* **Corpo da Requisição:**
     ```json
     {
         "nome_obstaculo": "String (Obrigatório)",
@@ -149,20 +149,19 @@ Recurso principal que representa uma árvore de planejamento completa.
     }
     ```
 
-#### 3.2. Atualizar um Obstáculo
--   **Endpoint:** `PUT /obstaculos/{id}/`
--   **Corpo da Requisição:** `{ "nome_obstaculo": "...", "description": "..." }`
+##### **3.2. Atualizar um Obstáculo**
+* **Endpoint:** `PUT /objetivos/{objetivo_id}/obstaculos/{obstaculo_id}/`
 
-#### 3.3. Deletar um Obstáculo
--   **Endpoint:** `DELETE /obstaculos/{id}/`
+##### **3.3. Deletar um Obstáculo**
+* **Endpoint:** `DELETE /objetivos/{objetivo_id}/obstaculos/{obstaculo_id}/`
 
 ---
 
-### 4. Pré-Requisitos
+#### **4. Pré-Requisitos**
 
-#### 4.1. Criar um Pré-Requisito
--   **Endpoint:** `POST /obstaculos/{obstaculo_id}/pre-requisitos/`
--   **Corpo da Requisição:**
+##### **4.1. Criar um Pré-Requisito**
+* **Endpoint:** `POST /obstaculos/{obstaculo_id}/prerequisitos/`
+* **Corpo da Requisição:**
     ```json
     {
         "nome_requisito": "String (Obrigatório)",
@@ -171,21 +170,20 @@ Recurso principal que representa uma árvore de planejamento completa.
     }
     ```
 
-#### 4.2. Atualizar um Pré-Requisito
--   **Endpoint:** `PUT /pre-requisitos/{id}/`
--   **Corpo da Requisição:** `{ "nome_requisito": "...", "description": "...", "priority": 2 }`
+##### **4.2. Atualizar um Pré-Requisito**
+* **Endpoint:** `PUT /obstaculos/{obstaculo_id}/prerequisitos/{prerequisito_id}/`
 
-#### 4.3. Deletar um Pré-Requisito
--   **Endpoint:** `DELETE /pre-requisitos/{id}/`
+##### **4.3. Deletar um Pré-Requisito**
+* **Endpoint:** `DELETE /obstaculos/{obstaculo_id}/prerequisitos/{prerequisito_id}/`
 
-### 5. Dependências
+---
 
-#### 5.1. Listar todas as Dependências
--   **Endpoint:** `GET /dependencias/`
+#### **5. Dependências**
 
-#### 5.2. Criar uma Dependência
--   **Endpoint:** `POST /dependencias/`
--   **Corpo da Requisição:**
+##### **5.1. Criar uma Dependência**
+* **Endpoint:** `POST /dependencias/`
+* **Descrição:** Cria uma relação onde um pré-requisito (`requisito_alvo`) depende de outro (`requisito_origem`).
+* **Corpo da Requisição:**
     ```json
     {
         "requisito_origem": "Integer (ID do pré-requisito)",
@@ -193,19 +191,18 @@ Recurso principal que representa uma árvore de planejamento completa.
     }
     ```
 
-#### 5.3. Deletar uma Dependência
--   **Endpoint:** `DELETE /dependencias/{id}/`
+##### **5.2. Deletar uma Dependência**
+* **Endpoint:** `DELETE /dependencias/{id}/`
 
 ---
 
-### Guia Rápido para o Desenvolvedor Front-End
+### **💡 Guia Rápido para o Desenvolvedor Front-End**
 
-1.  **Fluxo de Trabalho:**
-    a. **Login:** Obtenha o token de autenticação.
-    b. **Dashboard:** Use `GET /arvores/` para listar as árvores do usuário.
-    c. **Visualização:** Use `GET /arvores/{id}/` para buscar e renderizar a árvore completa.
-    d. **Interação:** Use os endpoints de `POST`, `PUT` e `DELETE` para criar, editar e excluir nós da árvore nos seus respectivos níveis.
+* **Fluxo de Trabalho:**
+    1.  **Dashboard:** Use `GET /apr/` para listar todas as árvores disponíveis e permitir que o usuário selecione uma.
+    2.  **Visualização:** Use `GET /test-view-tree/{id}/` para buscar a estrutura completa da APR selecionada e renderizá-la na interface.
+    3.  **Interação:** Use os endpoints de `POST`, `PUT` e `DELETE` para criar, editar e excluir nós da árvore nos seus respectivos níveis (APR, Objetivo, Obstáculo, etc.). O ID do nó pai é passado na URL, simplificando as requisições.
 
-2.  **Mapeamento de Dados para a UI:**
-    -   **Prioridades:** Use `priority_display` para o texto ("Alta") e `priority` (3) para lógica ou estilos CSS.
-    -   **Formulários:** Lembre-se que ao criar um item aninhado, o ID do pai vem da URL, simplificando o corpo da requisição.
+* **Mapeamento de Dados para a UI:**
+    * **Prioridades:** Use o campo `priority_display` para exibir o texto ("Alta") e o campo `priority` (ex: 3) para lógica interna ou estilos CSS.
+    * **Estrutura de Criação:** Ao criar um item aninhado (ex: um Objetivo), o ID do pai (APR) já está na URL (`/apr/{apr_id}/objetivos/`), o que significa que o `arvore_id` não precisa ser enviado no corpo da requisição.
