@@ -106,6 +106,31 @@ def test_create_prerequisito(request):
             'success': False,
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def test_create_dependencia(request):
+    try:
+        from .models import Dependencias, PreRequisito
+        
+        requisito_origem = PreRequisito.objects.get(id=request.data.get('requisito_origem', 1))
+        requisito_alvo = PreRequisito.objects.get(id=request.data.get('requisito_alvo', 2))
+        
+        dependencia = Dependencias.objects.create(
+            requisito_origem=requisito_origem,
+            requisito_alvo=requisito_alvo
+        )
+        
+        return Response({
+            'success': True,
+            'id': dependencia.id,
+            'origem': requisito_origem.nome_requisito,
+            'alvo': requisito_alvo.nome_requisito
+        })
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # User views
 @api_view(['GET'])
