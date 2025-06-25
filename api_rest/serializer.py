@@ -27,61 +27,28 @@ class DependenciaSerializer(serializers.ModelSerializer):
 
 class PreRequisitoSerializer(serializers.ModelSerializer):
     priority_display = serializers.CharField(source='get_priority_display', read_only=True)
-    obstaculo_id = serializers.IntegerField(write_only=True, required=False)  # Opcional para edição
     
     class Meta:
         model = PreRequisito
-        fields = ['id', 'nome_requisito', 'description', 'priority', 'priority_display', 'obstaculo_id']
-    
-    def create(self, validated_data):
-        obstaculo_id = validated_data.pop('obstaculo_id')
-        validated_data['obstaculo_id'] = obstaculo_id
-        return super().create(validated_data)
-    
-    def update(self, instance, validated_data):
-        # Remove obstaculo_id se presente (não deve mudar na edição)
-        validated_data.pop('obstaculo_id', None)
-        return super().update(instance, validated_data)
+        fields = ['id', 'nome_requisito', 'description', 'priority', 'priority_display']
 
 class ObstaculoSerializer(serializers.ModelSerializer):
     pre_requisitos = PreRequisitoSerializer(many=True, read_only=True, source='prerequisito_set')
-    objetivo_id = serializers.IntegerField(write_only=True, required=False)  # Opcional para edição
 
     class Meta:
         model = Obstaculo
-        fields = ['id', 'nome_obstaculo', 'description', 'pre_requisitos', 'objetivo_id']
-    
-    def create(self, validated_data):
-        objetivo_id = validated_data.pop('objetivo_id')
-        validated_data['objetivo_id'] = objetivo_id
-        return super().create(validated_data)
-    
-    def update(self, instance, validated_data):
-        # Remove objetivo_id se presente (não deve mudar na edição)
-        validated_data.pop('objetivo_id', None)
-        return super().update(instance, validated_data)
+        fields = ['id', 'nome_obstaculo', 'description', 'pre_requisitos']
 
 class ObjetivoSerializer(serializers.ModelSerializer):
     obstaculos = ObstaculoSerializer(many=True, read_only=True, source='obstaculo_set')
-    arvore_id = serializers.IntegerField(write_only=True, required=False)  # Opcional para edição
 
     class Meta:
         model = Objetivo
-        fields = ['id', 'nome_objetivo', 'description', 'obstaculos', 'arvore_id']
-    
-    def create(self, validated_data):
-        arvore_id = validated_data.pop('arvore_id')
-        validated_data['arvore_id'] = arvore_id
-        return super().create(validated_data)
-    
-    def update(self, instance, validated_data):
-        # Remove arvore_id se presente (não deve mudar na edição)
-        validated_data.pop('arvore_id', None)
-        return super().update(instance, validated_data)
+        fields = ['id', 'nome_objetivo', 'description', 'obstaculos']
 
 class ArvorePreRequisitosSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    user_id = serializers.IntegerField(write_only=True, required=False)  # Opcional para edição
+    user_id = serializers.IntegerField(write_only=True)  # Mantido para ARP pois não está na URL
     objetivos = ObjetivoSerializer(many=True, read_only=True, source='objetivo_set')
 
     class Meta:

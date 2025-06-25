@@ -273,10 +273,9 @@ def objetivo_list(request, apr_id):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        request.data['arvore'] = apr_id
         serializer = ObjetivoSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(arvore=arvore)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -316,10 +315,9 @@ def obstaculo_list(request, objetivo_id):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        request.data['objetivo'] = objetivo_id
         serializer = ObstaculoSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(objetivo=objetivo)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -359,10 +357,9 @@ def prerequisito_list(request, obstaculo_id):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        request.data['obstaculo'] = obstaculo_id
         serializer = PreRequisitoSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(obstaculo=obstaculo)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
