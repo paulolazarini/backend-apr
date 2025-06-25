@@ -47,9 +47,14 @@ class ObjetivoSerializer(serializers.ModelSerializer):
         fields = ['id', 'nome_objetivo', 'description', 'obstaculos']
 
 class ArvorePreRequisitosSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer(read_only=True)  # Para criação
     objetivos = ObjetivoSerializer(many=True, read_only=True, source='objetivo_set')
 
     class Meta:
         model = ArvorePreRequisitos
-        fields = ['id', 'nome_apr', 'description', 'user', 'objetivos']
+        fields = ['id', 'nome_apr', 'description', 'user', 'user_id', 'objetivos']
+    
+    def create(self, validated_data):
+        user_id = validated_data.pop('user_id')
+        validated_data['user_id'] = user_id
+        return super().create(validated_data)
