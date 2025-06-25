@@ -11,7 +11,7 @@ Esta documentação detalha a API RESTful para o sistema de Árvore de Pré-Requ
 
 #### URL Base
 Todas as URLs documentadas são relativas à seguinte base:
-`https://sua-api.com/api/`
+`https://backend-apr.vercel.app/api/`
 
 #### Autenticação
 A API utiliza autenticação por Token. Todas as requisições (exceto o login para obter o token) devem incluir o cabeçalho `Authorization`.
