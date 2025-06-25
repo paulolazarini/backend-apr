@@ -47,7 +47,8 @@ class ObjetivoSerializer(serializers.ModelSerializer):
         fields = ['id', 'nome_objetivo', 'description', 'obstaculos']
 
 class ArvorePreRequisitosSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True) 
+    user = UserSerializer(read_only=True)
+    user_id = serializers.IntegerField(write_only=True)
     objetivos = ObjetivoSerializer(many=True, read_only=True, source='objetivo_set')
 
     class Meta:
