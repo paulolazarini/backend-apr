@@ -6,11 +6,13 @@ from .views import (
     obstaculo_list, obstaculo_detail,
     prerequisito_list, prerequisito_detail,
     dependencia_list, dependencia_detail,
-    test_endpoint
+    test_endpoint, test_create_apr
 )
 
 urlpatterns = [
     path('test/', test_endpoint, name='test_endpoint'),
+    path('test-create-apr/', test_create_apr, name='test_create_apr'),
+
     # User endpoints
     path('users/', get_users, name='get_users'),
     path('users/create', create_users, name='create_users'),

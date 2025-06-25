@@ -34,6 +34,31 @@ def test_endpoint(request):
             'message': 'API is working but database error',
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def test_create_apr(request):
+    try:
+        # Testa criação simples
+        from .models import ArvorePreRequisitos
+        from django.contrib.auth.models import User
+        
+        user = User.objects.get(id=request.data.get('user_id', 2))
+        apr = ArvorePreRequisitos.objects.create(
+            nome_apr=request.data.get('nome_apr', 'Teste'),
+            description=request.data.get('description', ''),
+            user=user
+        )
+        
+        return Response({
+            'success': True,
+            'id': apr.id,
+            'nome_apr': apr.nome_apr
+        })
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # User views
 @api_view(['GET'])
