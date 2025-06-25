@@ -131,6 +131,59 @@ def test_create_dependencia(request):
             'success': False,
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['GET'])
+def test_view_tree(request, apr_id):
+    try:
+        from .models import ArvorePreRequisitos
+        
+        arvore = ArvorePreRequisitos.objects.get(id=apr_id)
+        objetivos = arvore.objetivo_set.all()
+        
+        tree_data = {
+            'id': arvore.id,
+            'nome_apr': arvore.nome_apr,
+            'description': arvore.description,
+            'objetivos': []
+        }
+        
+        for objetivo in objetivos:
+            obstaculos = objetivo.obstaculo_set.all()
+            objetivo_data = {
+                'id': objetivo.id,
+                'nome_objetivo': objetivo.nome_objetivo,
+                'description': objetivo.description,
+                'obstaculos': []
+            }
+            
+            for obstaculo in obstaculos:
+                prerequisitos = obstaculo.prerequisito_set.all()
+                obstaculo_data = {
+                    'id': obstaculo.id,
+                    'nome_obstaculo': obstaculo.nome_obstaculo,
+                    'description': obstaculo.description,
+                    'prerequisitos': []
+                }
+                
+                for prerequisito in prerequisitos:
+                    prerequisito_data = {
+                        'id': prerequisito.id,
+                        'nome_requisito': prerequisito.nome_requisito,
+                        'description': prerequisito.description,
+                        'priority': prerequisito.priority
+                    }
+                    obstaculo_data['prerequisitos'].append(prerequisito_data)
+                
+                objetivo_data['obstaculos'].append(obstaculo_data)
+            
+            tree_data['objetivos'].append(objetivo_data)
+        
+        return Response(tree_data)
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # User views
 @api_view(['GET'])
