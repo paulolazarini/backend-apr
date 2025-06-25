@@ -50,7 +50,7 @@ class ObjetivoSerializer(serializers.ModelSerializer):
 
 class ArvorePreRequisitosSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    user_id = serializers.IntegerField(write_only=True)  # Mantido para ARP pois não está na URL
+    user_id = serializers.IntegerField(write_only=True)
     objetivos = ObjetivoSerializer(many=True, read_only=True, source='objetivo_set')
 
     class Meta:
@@ -63,6 +63,5 @@ class ArvorePreRequisitosSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
     
     def update(self, instance, validated_data):
-        # Remove user_id se presente (não deve mudar na edição)
         validated_data.pop('user_id', None)
         return super().update(instance, validated_data)

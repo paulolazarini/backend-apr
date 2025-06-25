@@ -76,13 +76,14 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "username": "String (Obrigatório)",
-    "first_name": "String (Opcional)",
-    "last_name": "String (Opcional)",
-    "password": "String (Obrigatório)",
-    "email": "String (Opcional)"
+    "username": "String (Obrigatório, não pode ser vazio)",
+    "password": "String (Obrigatório, não pode ser vazio)",
+    "first_name": "String (Opcional, se enviado não pode ser vazio)",
+    "last_name": "String (Opcional, se enviado não pode ser vazio)",
+    "email": "String (Opcional, se enviado não pode ser vazio e deve ser e-mail válido)"
 }
 ```
+* **Observação:** Se não quiser preencher os campos opcionais, basta omiti-los do JSON.
 * **Resposta de Sucesso (201 Created):**
 ```json
 {
@@ -112,10 +113,10 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "username": "String (Opcional)",
-    "first_name": "String (Opcional)",
-    "last_name": "String (Opcional)",
-    "email": "String (Opcional)"
+    "username": "String (Opcional, não pode ser vazio)",
+    "first_name": "String (Opcional, se enviado não pode ser vazio)",
+    "last_name": "String (Opcional, se enviado não pode ser vazio)",
+    "email": "String (Opcional, se enviado não pode ser vazio e deve ser e-mail válido)"
 }
 ```
 
@@ -148,37 +149,21 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 ]
 ```
 
-##### **1.2. Detalhes de uma APR (Recuperar a Árvore Completa)**
-* **Endpoint:** `GET /test-view-tree/{id}/`
-* **Descrição:** Retorna um único objeto APR com toda a sua estrutura aninhada.
+##### **1.2. Ver ARP Específica**
+* **Endpoint:** `GET /apr/{id}/`
 * **Resposta de Sucesso (200 OK):**
 ```json
 {
     "id": 13,
     "nome_apr": "Aprendizado de Python",
     "description": "Árvore para aprender Python do zero",
-    "objetivos": [
-        {
-            "id": 2,
-            "nome_objetivo": "Python Básico",
-            "description": "Aprender fundamentos",
-            "obstaculos": [
-                {
-                    "id": 1,
-                    "nome_obstaculo": "Sintaxe Python",
-                    "description": "Entender sintaxe básica",
-                    "prerequisitos": [
-                        {
-                            "id": 1,
-                            "nome_requisito": "Variáveis",
-                            "description": "Aprender variáveis",
-                            "priority": 1
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+    "user": {
+        "id": 2,
+        "username": "joao_silva",
+        "first_name": "João",
+        "last_name": "Silva"
+    },
+    "objetivos": []
 }
 ```
 
@@ -187,7 +172,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_apr": "String (Obrigatório)",
+    "nome_apr": "String (Obrigatório, não pode ser vazio)",
     "description": "String (Opcional)",
     "user_id": "Integer (ID do usuário, Obrigatório)"
 }
@@ -208,35 +193,17 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 }
 ```
 
-##### **1.4. Ver ARP Específica**
-* **Endpoint:** `GET /apr/{id}/`
-* **Resposta de Sucesso (200 OK):**
-```json
-{
-    "id": 13,
-    "nome_apr": "Aprendizado de Python",
-    "description": "Árvore para aprender Python do zero",
-    "user": {
-        "id": 2,
-        "username": "joao_silva",
-        "first_name": "João",
-        "last_name": "Silva"
-    },
-    "objetivos": []
-}
-```
-
-##### **1.5. Atualizar uma APR**
+##### **1.4. Atualizar uma APR**
 * **Endpoint:** `PUT /apr/{id}/`
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_apr": "String (Opcional)",
+    "nome_apr": "String (Opcional, não pode ser vazio)",
     "description": "String (Opcional)"
 }
 ```
 
-##### **1.6. Deletar uma APR**
+##### **1.5. Deletar uma APR**
 * **Endpoint:** `DELETE /apr/{id}/`
 * **Resposta de Sucesso (204 No Content):** Sem corpo na resposta.
 
@@ -263,7 +230,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_objetivo": "String (Obrigatório)",
+    "nome_objetivo": "String (Obrigatório, não pode ser vazio)",
     "description": "String (Opcional)"
 }
 ```
@@ -294,7 +261,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_objetivo": "String (Opcional)",
+    "nome_objetivo": "String (Opcional, não pode ser vazio)",
     "description": "String (Opcional)"
 }
 ```
@@ -326,7 +293,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_obstaculo": "String (Obrigatório)",
+    "nome_obstaculo": "String (Obrigatório, não pode ser vazio)",
     "description": "String (Opcional)"
 }
 ```
@@ -357,7 +324,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_obstaculo": "String (Opcional)",
+    "nome_obstaculo": "String (Opcional, não pode ser vazio)",
     "description": "String (Opcional)"
 }
 ```
@@ -390,7 +357,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_requisito": "String (Obrigatório)",
+    "nome_requisito": "String (Obrigatório, não pode ser vazio)",
     "description": "String (Opcional)",
     "priority": "Integer (Obrigatório)" // 1=Baixa, 2=Média, 3=Alta
 }
@@ -424,7 +391,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 * **Corpo da Requisição:**
 ```json
 {
-    "nome_requisito": "String (Opcional)",
+    "nome_requisito": "String (Opcional, não pode ser vazio)",
     "description": "String (Opcional)",
     "priority": "Integer (Opcional)" // 1=Baixa, 2=Média, 3=Alta
 }
@@ -497,109 +464,41 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 
 ---
 
-#### **6. Endpoints de Teste**
-
-##### **6.1. Teste de Conectividade**
-* **Endpoint:** `GET /test/`
-* **Resposta de Sucesso (200 OK):**
-```json
-{
-    "message": "API is working"
-}
-```
-
----
-
 ### **💡 Guia Rápido para o Desenvolvedor Front-End**
 
-#### **Fluxo de Trabalho:**
-1. **Dashboard:** Use `GET /apr/` para listar todas as árvores disponíveis e permitir que o usuário selecione uma.
-2. **Visualização:** Use `GET /test-view-tree/{id}/` para buscar a estrutura completa da APR selecionada e renderizá-la na interface.
-3. **Interação:** Use os endpoints de `POST`, `PUT` e `DELETE` para criar, editar e excluir nós da árvore nos seus respectivos níveis.
+* **Fluxo de Trabalho:**
+    1.  **Dashboard:** Use `GET /apr/` para listar todas as árvores disponíveis e permitir que o usuário selecione uma.
+    2.  **Visualização:** Use `GET /apr/{id}/` para buscar a estrutura da APR selecionada e renderizá-la na interface.
+    3.  **Interação:** Use os endpoints de `POST`, `PUT` e `DELETE` para criar, editar e excluir nós da árvore nos seus respectivos níveis (APR, Objetivo, Obstáculo, etc.). O ID do nó pai é passado na URL, simplificando as requisições.
 
-#### **Mapeamento de Dados para a UI:**
-* **Prioridades:** Use o campo `priority_display` para exibir o texto ("Alta") e o campo `priority` (ex: 3) para lógica interna ou estilos CSS.
-* **Estrutura de Criação:** Ao criar um item aninhado (ex: um Objetivo), o ID do pai (APR) já está na URL (`/apr/{apr_id}/objetivos/`), o que significa que o `arvore_id` não precisa ser enviado no corpo da requisição.
-
-#### **Exemplos de Uso:**
-
-**Criar uma árvore completa:**
-```bash
-# 1. Criar usuário
-curl -X POST https://backend-apr.vercel.app/api/users/create/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "dev_user",
-    "first_name": "Desenvolvedor",
-    "last_name": "Teste",
-    "password": "senha123",
-    "email": "dev@teste.com"
-  }'
-
-# 2. Criar ARP
-curl -X POST https://backend-apr.vercel.app/api/apr/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome_apr": "Desenvolvimento Web",
-    "description": "Aprender desenvolvimento web completo",
-    "user_id": 1
-  }'
-
-# 3. Criar objetivo
-curl -X POST https://backend-apr.vercel.app/api/apr/1/objetivos/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome_objetivo": "Frontend",
-    "description": "Dominar desenvolvimento frontend"
-  }'
-
-# 4. Criar obstáculo
-curl -X POST https://backend-apr.vercel.app/api/objetivos/1/obstaculos/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome_obstaculo": "HTML/CSS",
-    "description": "Entender HTML e CSS"
-  }'
-
-# 5. Criar pré-requisito
-curl -X POST https://backend-apr.vercel.app/api/obstaculos/1/prerequisitos/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome_requisito": "Estrutura HTML",
-    "description": "Aprender tags HTML básicas",
-    "priority": 1
-  }'
-```
+* **Mapeamento de Dados para a UI:**
+    * **Prioridades:** Use o campo `priority_display` para exibir o texto ("Alta") e o campo `priority` (ex: 3) para lógica interna ou estilos CSS.
+    * **Estrutura de Criação:** Ao criar um item aninhado (ex: um Objetivo), o ID do pai (APR) já está na URL (`/apr/{apr_id}/objetivos/`), o que significa que o campo de relacionamento não precisa ser enviado no corpo da requisição.
 
 ---
 
-### **💡 Observações Importantes**
+### **⚠️ Observações Importantes**
 
-1. **Prioridades dos Pré-requisitos:**
-   - 1 = Baixa
-   - 2 = Média
-   - 3 = Alta
+1. **Campos obrigatórios e não-brancos:**
+   - `username` e `password` são obrigatórios e não podem ser vazios.
+   - `first_name`, `last_name` e `email` são opcionais, mas se enviados, não podem ser vazios.
+   - `nome_apr`, `nome_objetivo`, `nome_obstaculo`, `nome_requisito` são obrigatórios e não podem ser vazios.
+   - `priority` é obrigatório na criação de pré-requisitos.
+   - `requisito_origem` e `requisito_alvo` são obrigatórios na criação de dependências.
 
-2. **Hierarquia da Estrutura:**
+2. **IDs de Relacionamento:**
+   - Os IDs de relacionamento são obtidos da URL, não do body (exceto `user_id` na criação de APR).
+
+3. **Hierarquia da Estrutura:**
    - ARP → Objetivos → Obstáculos → Pré-requisitos → Dependências
 
-3. **Campos Obrigatórios:**
-   - Todos os campos `nome_*` são obrigatórios
-   - `user_id` é obrigatório na criação de ARP
-   - `priority` é obrigatório na criação de pré-requisitos
-   - `requisito_origem` e `requisito_alvo` são obrigatórios na criação de dependências
-
-4. **IDs de Relacionamento:**
-   - Os IDs de relacionamento são obtidos da URL, não do body
-   - Exemplo: Para criar um objetivo, use `/apr/{apr_id}/objetivos/` - o `apr_id` já está na URL
-
-5. **Dependências:**
+4. **Dependências:**
    - Conectam pré-requisitos entre si
    - Podem conectar pré-requisitos de diferentes obstáculos/objetivos/ARPs
    - `requisito_origem` → `requisito_alvo` (origem deve ser concluída antes do alvo)
 
 ---
 
-### **💡 Suporte**
+### **💬 Suporte**
 
 Para dúvidas ou problemas com a API, entre em contato com a equipe de desenvolvimento.
