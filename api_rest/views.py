@@ -59,6 +59,29 @@ def test_create_apr(request):
             'success': False,
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def test_create_obstaculo(request):
+    try:
+        from .models import Obstaculo, Objetivo
+        
+        objetivo = Objetivo.objects.get(id=request.data.get('objetivo_id', 2))
+        obstaculo = Obstaculo.objects.create(
+            nome_obstaculo=request.data.get('nome_obstaculo', 'Teste'),
+            description=request.data.get('description', ''),
+            objetivo=objetivo
+        )
+        
+        return Response({
+            'success': True,
+            'id': obstaculo.id,
+            'nome_obstaculo': obstaculo.nome_obstaculo
+        })
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # User views
 @api_view(['GET'])
