@@ -114,6 +114,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 ```json
 {
     "username": "String (Opcional, não pode ser vazio)",
+    "password": "String (Opcional, se enviado será atualizada a senha)",
     "first_name": "String (Opcional, se enviado não pode ser vazio)",
     "last_name": "String (Opcional, se enviado não pode ser vazio)",
     "email": "String (Opcional, se enviado não pode ser vazio e deve ser e-mail válido)"
@@ -440,22 +441,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 ##### **5.3. Ver Dependência Específica**
 * **Endpoint:** `GET /dependencias/{id}/`
 * **Resposta de Sucesso (200 OK):**
-```json
-{
-    "id": 1,
-    "requisito_origem": 1,
-    "requisito_alvo": 2
-}
 ```
-
-##### **5.4. Atualizar uma Dependência**
-* **Endpoint:** `PUT /dependencias/{id}/`
-* **Corpo da Requisição:**
-```json
-{
-    "requisito_origem": "Integer (ID do pré-requisito, Obrigatório)",
-    "requisito_alvo": "Integer (ID do pré-requisito, Obrigatório)"
-}
 ```
 
 ##### **5.5. Deletar uma Dependência**
@@ -480,7 +466,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 ### **⚠️ Observações Importantes**
 
 1. **Campos obrigatórios e não-brancos:**
-   - `username` e `password` são obrigatórios e não podem ser vazios.
+   - `username` e `password` são obrigatórios apenas na criação de usuários (POST), não na atualização (PUT).
    - `first_name`, `last_name` e `email` são opcionais, mas se enviados, não podem ser vazios.
    - `nome_apr`, `nome_objetivo`, `nome_obstaculo`, `nome_requisito` são obrigatórios e não podem ser vazios.
    - `priority` é opcional na criação de pré-requisitos (default: 2=Média).
