@@ -359,7 +359,7 @@ A API é organizada em torno da seguinte hierarquia de recursos:
 {
     "nome_requisito": "String (Obrigatório, não pode ser vazio)",
     "description": "String (Opcional)",
-    "priority": "Integer (Obrigatório)" // 1=Baixa, 2=Média, 3=Alta
+    "priority": "Integer (Opcional, default: 2=Média)" // 1=Baixa, 2=Média, 3=Alta
 }
 ```
 * **Resposta de Sucesso (201 Created):**
@@ -483,8 +483,9 @@ A API é organizada em torno da seguinte hierarquia de recursos:
    - `username` e `password` são obrigatórios e não podem ser vazios.
    - `first_name`, `last_name` e `email` são opcionais, mas se enviados, não podem ser vazios.
    - `nome_apr`, `nome_objetivo`, `nome_obstaculo`, `nome_requisito` são obrigatórios e não podem ser vazios.
-   - `priority` é obrigatório na criação de pré-requisitos.
+   - `priority` é opcional na criação de pré-requisitos (default: 2=Média).
    - `requisito_origem` e `requisito_alvo` são obrigatórios na criação de dependências.
+   - `user_id` é obrigatório apenas na criação de APR (POST), não na atualização (PUT).
 
 2. **IDs de Relacionamento:**
    - Os IDs de relacionamento são obtidos da URL, não do body (exceto `user_id` na criação de APR).
